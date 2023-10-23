@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBrandRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,9 @@ class BrandController extends Controller
      */
     public function index()
     {   
-        $models = Brand::get();
+        $brands = Brand::paginate(30);
       
-        echo view('brand/list',["models"=>$models]);
+        return view('brand/list',["brands"=>$brands]);
     }
 
     /**
@@ -23,45 +24,43 @@ class BrandController extends Controller
      */
     public function create()
     {
-   
-        echo view('brand/create');
+        return view('brand/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
-      
-       Brand::create([
-        'description' => $request->description
-       ]);
-
-       return redirect('brand');
+       Brand::create($request->validated());
+       $request->session()->flash('msg','<div class="alert alert-success" role="alert">success add</div>');
+       return to_route('brand.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Brand $aa)
     {
-        //
+        dd($aa);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-       
+    public function edit(Brand $brand)
+    {   
+        return view('brand/edit',compact('brand'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreBrandRequest $request, Brand $brand)
     {
-        $brand = Brand::find($id);
+        $brand->update($request->validated());
+        $request->session()->flash('msg','<div class="alert alert-info" role="alert">success update</div>');
+        return redirect('brand');
     }
 
     /**

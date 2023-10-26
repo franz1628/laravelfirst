@@ -10,4 +10,6 @@ class Brand extends Model
     use HasFactory;
     protected $fillable = ['description','state'];
     protected $table = 'brand';
+
+   
 }

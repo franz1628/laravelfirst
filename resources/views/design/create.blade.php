@@ -18,12 +18,26 @@
 
 
     </div>
-    <select name="idBrand" id="" class="form-select">
-        <option value="">SELECCIONAR</option>
-        @foreach($brands as $brand)
-            <option  value="{{$brand->id}}">{{$brand->description}}</option>
-        @endforeach
-    </select> 
+
+    <div class="mb-3">
+        <label for="idBrand" class="form-label">Brand</label>
+        <select name="idBrand" id="idBrand" class="form-select">
+            <option value="">SELECCIONAR</option>
+            @foreach($brands as $brand)
+                <option {{old('idBrand')==$brand->id?"selected":""}} value="{{$brand->id}}">{{$brand->description}}</option>
+            @endforeach
+        </select> 
+        @error('idBrand')
+        <div class="text-danger">
+            {{$errors->first('idBrand')}}
+        </div>
+        @enderror
+
+
+    </div>
+
+    
+    
 
     <button class="btn btn-success" type="submit">Enviar</button>
 </form>

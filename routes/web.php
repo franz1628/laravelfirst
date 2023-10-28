@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [TestController::class,'test']);
+Route::get('/', [BrandController::class,'index']);
 
 Route::resource("brand",BrandController::class);
 Route::resource("design",DesignController::class);
